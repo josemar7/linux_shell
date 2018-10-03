@@ -1,0 +1,117 @@
+!v : comando más reciente que empieza por v
+
+which -a head : busca las rutas donde está el comando head
+
+type head : donde se ejecuta el comando head
+
+type -a for : nos dice que for es una palabra del shell
+
+help hash | less : ayuda del comando del sistema hash
+
+man dirname : manual de dirname
+
+/usr/local/bin : en esa carpeta están los ejecutables que se pueden ejecutar desde cualquier PATH
+
+basename /vagrant/luser-demo06.sh : devuelve el nombre sin el PATH
+
+dirname /vagrant/luser-demo06.sh : devuelve el PATH sin el nombre del fichero
+
+${0} : nombre del último comando ejecutado
+
+${#} : número de argumentos del comando
+
+${?} : exit status del último comando
+
+${@} : argumentos del comando ejecutado en forma de lista
+
+${*} : argumentos del comando ejecutado en forma de string
+
+sleep 1 : "dormir" durante un segundo
+
+tail  add-local-user.sh -c 7 : extrae los últimos 7 caracteres del fichero indicado
+
+head  add-local-user.sh -c 7 : extrae los primeros 7 caracteres del fichero indicado
+
+
+
+------------------------
+STDOUT, STDIN, STDERR --
+------------------------
+
+id -un > id : la salida del comando la redirige a un fichero que se llama "id" (STDOUT)
+
+read LINE < ${FILE} : redirige a una variable LINE el contenido del fichero contenido en la variable FILE (STDIN)
+
+echo "${RANDOM} ${RANDOM}" >> ${FILE} : redirige al fichero FILE, pero añadiendo, no lo machaca
+
+read LINE 0< ${FILE} : redirige STDIN a una variable, usando FD 0.
+
+head -n3 /etc/passwd 1> ${FILE} : redirige STDOUT a un fichero usando FD 1. machacando el fichero.
+
+head -n3 /etc/passwd /fakefile 2> ${ERR_FILE} : redirige STDERR a un fichero usando FD 2.
+
+head -n3 /etc/passwd /fakefile &> ${FILE} : redirige STDOUT y STDERR a un fichero.
+
+head -n3 /etc/passwd /fakefile |& cat -n : redirige STDOUT y STDERR a través de un pipe.
+
+echo "This is STDERR!" >&2 : enviar salida a STDERR
+
+head -n3 /etc/passwd /fakefile > /dev/null : descartar STDOUT
+
+head -n3 /etc/passwd /fakefile 2> /dev/null : descartar STDERR
+
+head -n3 /etc/passwd /fakefile &> /dev/null : descartar STDOUT y STDERR
+
+rm ${FILE} ${ERR_FILE} &> /dev/null : limpiar todo
+
+"Error. You aren't a superuser!" >&2 : salida a STDERR
+
+useradd -c "${COMMENT}" -m ${USER_NAME} &> /dev/null : descartar STDOUT y STDERR
+
+
+------------------------
+
+
+local MESSAGE="${@}" : variable local (dentro de una función)
+
+readonly VERBOSE='true' : solo lectura
+
+logger 'Hello from the command line!' : añade una traza al fichero messages
+
+sudo tail /var/log/messages : últimas 10 líneas del fichero messages
+
+logger -t my-script 'Tagging on.' : etiqueta la traza con el nombre my-script
+
+bc -l : calculadora bash
+
+let NUM='2 + 3' : NUM = 5
+
+expr 1 + 1 : 2
+
+NUM=$(expr 2 + 3) : NUM = 5
+
+locate userdel : localiza userdel para el usuario loggado
+
+touch userdel : crear un archivo userdel
+
+sudo updatedb : reindexa los archivos
+
+locate userdel | grep bin : localiza userdel con el path que contenga bin para el usuario loggado
+
+sudo locate .bashrc : localiza .bashrc para todos los usuarios
+
+find /usr/bin/*log* : busca los ficheros con patrón *log* en el path indicado
+
+find /usr/sbin/ -name userdel : busca el fichero con nombre userdel en el path
+
+tail /etc/passwd : muestra listado de passwords asociadas a usuarios
+
+id usuario : muestra el id del usuario
+
+sudo userdel -r jlocke : borra el usuario incluído su directorio
+
+tar -cf catvideos.tar catvideos/ : comprimir en catvideos.tar el contenido de catvideos/
+
+tar -xf ../catvideos.tar : extraer el contenido de catvideos.tar
+
+sudo chage -E 0 woz : contraseña del usuario woz caduca ahora mismo
